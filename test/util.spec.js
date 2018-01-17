@@ -6,7 +6,7 @@ const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const expect = chai.expect
 chai.use(dirtyChai)
-const IpldBitcoin = require('../src/index')
+const IpldZcash = require('../src/index')
 
 const fixtureBlockHex = loadFixture(__dirname, 'fixtures/block.hex')
 const fixtureBlock = Buffer.from(fixtureBlockHex.toString(), 'hex')
@@ -14,98 +14,18 @@ const invalidDagNode = {invalid: 'dagNode'}
 
 describe('IPLD format util API deserialize()', () => {
   it('should work correctly', (done) => {
-    IpldBitcoin.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
       expect(err).to.not.exist()
-      verifyBlock(dagNode, {
-        version: 2,
-        prevHash: '87d6242b27d248a9e145fe764a0bcef03a403883a2e4c8590200000000000000',
-        merkleRoot: '11a5b9a70acebedbbf71ef8ca341e8a98cf279c49eee8f92e10a2227743b6aeb',
-        timestamp: 1386981279,
-        bits: 419740270,
-        nonce: 3159344128
+      verifyBlock(dagNode.header, {
+        version: 4,
+        prevHash: '960143fe2c5e22cc0bf0cd5534d7f7f4347f4e75223d07379b9af71400000000',
+        merkleRoot: '947863a7d7a980a00ef54ce761dcb7b21f4b95fdaf4822f16f37a0e2dea8643e',
+        reserved: '0000000000000000000000000000000000000000000000000000000000000000',
+        time: 1481233847,
+        bits: 477875354,
+        nonce: '8200000000000000d548af969ea8dceedb6bfad4000000000000000000000000',
+        solution: '005836fdbc8a7a7d9cbec4f059ba17f62d0e775b19035c8e18f123d3a99f270118325eaac526ae7a68d60c9c8c5acdc3e71e987020cb55ad92e0c37af0ab200d3a19e366389bdfe53cd79f70dbc4a67ea6fdc3700f25e0b1d49cee31a54ba8cf826b34c2561c97a0c239e2872c74a33c41690a44e0de741283d60dbfb738152a90d84b1b8f4dce36c3323d35275e8c43f464e9401b757a85392335fdba2432eda2b225b9549faee001d0ebadf24c106f353a02788c386a2f6bce7d83422e8d3ba8ff5cdd85429484a67c76ce31bfacf968621f0b72d9334dfee6b430d2a811f7954548b419fb9428b6d9a09e1317774ebb628d4dd8f334fbe4fb80200f226af20f1cd089849c6207c9d87869baba2e473b0f6b07e68ada56955322d31879c5653a1a84df97a5180e0655fa8da912d5b09396dc601db16143ac00525a9f16b087b64e4fb6567822f1ed84ba723ffde6ca00f29446a54ce34ad03030e6dd55a992817ede9038436793fa72b7133fcded9443d2340b7dcfb45b02230121c5d0d2958cff63a5633db92b61ed9524f74d230a5429c76a02e12f096e611cc978893683429f89cf03a52533039ae3b7c092589aa9f60cb67b19d5849533c254986a614909ee5765097935f7b162842c09d315526f5f3d77c817eff16204fbe6c949b44e1ac1052482774279e76377431123a189d6716ddff6157c6708985f8f01277d67871e915adcc83119440c8cf6e121911b6d748a4c4b15537273379965ecb0bd89862936cfd7a45d9138b93e564596de4ae5099a371f8cf95f692dffe46523ad5bb0482891df72eac651b9c42f191841e3ad68b0459619367f0341523a03a61ecda6694a7dbcaf1f6d9d11c8c6f132fda2beca91f84cd01d78e2854b5aac4ad7219bff38f94e131e065a48961e6e5468690d0122c832f3ee5570fbed1547d91bc202151d3757d432f1edc793c5f37cf6bd34a9af42970ccb01ae1696ba75067c743b58b9ca4e81e1d7a69203c3b62609150effaab450dd4a0b20d68a31be560808c097f046924acd6e9fc18e3f5d28e698d658a96b06821737a511616bdcb4237c5d3dedd56e53d758bb2d695f52ee58cb49bff3563d38c30411c22e7393b61797d79755a4ea5f9b1232283e4b802100199633b03277e398f70f3e0ef8e7a4b7bf396aba1d55f53a2e03ef089c6720dc456715b08bb94f754d211037c15e0b2078d6226a7a31f4e8f19d885adae07244132dcf0605873a19d4dbef5a03f425975e796956827d6d66072675d10ac87a02db325559bdc9643a32a0beb93723fc3fdbb218b5c2c9d3c2ca9dec65392e1a0fbe0732e66547335f69ab4b81064a4d3fb9830d0e3c547e2a6a554f22928e8762e8941f6f5f5cc509319fb85a2cbf0e433be5a225f94c693bb0691a8ecdba58f71104e12f7cc056a10ae17856e059fb126ea1a5fa43a40f4367901212a3decbea31e0756c37587ff4fdd0271825aa48e0105f8af667977a823fe051dfaa1fb4014f50d6222fed9ccd8787c77563d83e3e52435cf19806c662596988442b39f2611fc80a8ee561bc3f944320b3f7ebaae1fc592e7a823c0967ceedf898b6f805224a3353f92121fb22fb16dbdc41cc066c1f5efaa42945ad4b6326fe73e4b3b34371c64871a99d97bec407ec53b9b01a332ada7a81f8f5f576aedd96b7ec0f51f9977c2ca8c40fbd66779a4743db1622619d23940c59f72b055674bd9ab331a20db20bbcdef4d8184929b1b6bcfc5f155ff0d263e37145f5c98cde541dda165943dec7a56deb81b8f1bd279acfcc8e16e9a968263f8d5c8793e7311a4fe2d114c9d601bf315df05317c0ad89c34e363af79ca4f0c6618f0da51cb8930f2d525779a64f3b657ff0e8b1106ce4f63f775b4cf6'
       })
-      done()
-    })
-  })
-
-  it('should deserialize Segwit correctly (a)', (done) => {
-    const segwitBlockHex = loadFixture(__dirname, 'fixtures/segwit.hex')
-    const segwitBlock = Buffer.from(segwitBlockHex.toString(), 'hex')
-    IpldBitcoin.util.deserialize(segwitBlock, (err, dagNode) => {
-      expect(err).to.not.exist()
-      verifyBlock(dagNode, {
-        version: 536870914,
-        prevHash: '1b7c39197e95b49b38ff96c7bf9e1db4a9f36b5698ecd6000000000000000000',
-        merkleRoot: 'c3f2244dfb3c833c62e72e05b7fd1bd6bcba2d6cd455984a1059db7a4bf38348',
-        timestamp: 1503722576,
-        bits: 402734313,
-        nonce: 3781004001
-      })
-      verifyCid(
-        dagNode,
-        '562099014a2fd1503c30f92f8a8306ec4d5409d547ce21d906000000000000000000',
-        done)
-    })
-  })
-
-  it('should deserialize Segwit correctly (b)', (done) => {
-    const segwitBlockHex = loadFixture(__dirname, 'fixtures/segwit2.hex')
-    const segwitBlock = Buffer.from(segwitBlockHex.toString(), 'hex')
-    IpldBitcoin.util.deserialize(segwitBlock, (err, dagNode) => {
-      expect(err).to.not.exist()
-      verifyBlock(dagNode, {
-        version: 536870914,
-        prevHash: '92f0d678374dbb0a205345d38f35be782412207bbdaa71000000000000000000',
-        merkleRoot: '99e3557bb520c3d45d6eb6ee18f93b3665bf4c8d9747200db4292fdbacc278c3',
-        timestamp: 1503851731,
-        bits: 402734313,
-        nonce: 3911763601
-      })
-      verifyCid(
-        dagNode,
-        '562090bd49e9fae063aa4db26ae434212157c4c72e16492aac000000000000000000',
-        done)
-    })
-  })
-
-  it('should deserialize Segwit correctly (c)', (done) => {
-    const segwitBlockHex = loadFixture(__dirname, 'fixtures/segwit3.hex')
-    const segwitBlock = Buffer.from(segwitBlockHex.toString(), 'hex')
-    IpldBitcoin.util.deserialize(segwitBlock, (err, dagNode) => {
-      expect(err).to.not.exist()
-      verifyBlock(dagNode, {
-        version: 536870912,
-        prevHash: '92fed79ebe58e1604dc08037488567c0881e1ae6a67831010000000000000000',
-        merkleRoot: '654f3617284e0c0f71baeaea9f54e337645550832b63de3dce4b66b2fbb27309',
-        timestamp: 1503848099,
-        bits: 402734313,
-        nonce: 2945767029
-      })
-      verifyCid(
-        dagNode,
-        '56205bd62fe2f3fe376ff2645681bebe7d12b64d9446ef72d1000000000000000000',
-        done)
-    })
-  })
-
-  it('should deserialize a block without transactions', (done) => {
-    const hexData = '01000000000102e9b542c5176808107ff1df906f46bb1f2583b16112b95ee5380665ba7fcfc0010000000000ffffffff80e68831516392fcd100d186b3c2c7b95c80b53c77e77c35ba03a66b429a2a1b0000000000ffffffff0280969800000000001976a914de4b231626ef508c9a74a8517e6783c0546d6b2888ac80969800000000001976a9146648a8cd4531e1ec47f35916de8e259237294d1e88ac02483045022100f6a10b8604e6dc910194b79ccfc93e1bc0ec7c03453caaa8987f7d6c3413566002206216229ede9b4d6ec2d325be245c5b508ff0339bf1794078e20bfe0babc7ffe683270063ab68210392972e2eb617b2388771abe27235fd5ac44af8e61693261550447a4c3e39da98ac024730440220032521802a76ad7bf74d0e2c218b72cf0cbc867066e2e53db905ba37f130397e02207709e2188ed7f08f4c952d9d1398'
-    const block = Buffer.from(hexData.toString(), 'hex')
-    IpldBitcoin.util.deserialize(block, (err, dagNode) => {
-      expect(err).to.not.exist()
-      expect(dagNode.transactions).to.be.empty()
-      verifyCid(
-        dagNode,
-        '56200cf2049d7ce53bebaa4e8105606ee4663ca6d8e73a84fa40717133137cfc32b8',
-        done)
-    })
-  })
-
-  it('should error on an invalid block', (done) => {
-    const invalidBlock = Buffer.from('abcdef', 'hex')
-    IpldBitcoin.util.deserialize(invalidBlock, (err, dagNode) => {
-      expect(dagNode).to.not.exist()
-      expect(err).to.be.an('error')
       done()
     })
   })
@@ -113,9 +33,9 @@ describe('IPLD format util API deserialize()', () => {
 
 describe('IPLD format util API serialize()', () => {
   it('should round-trip (de)serialization correctly', (done) => {
-    IpldBitcoin.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
       expect(err).to.not.exist()
-      IpldBitcoin.util.serialize(dagNode, (err, binaryBlob) => {
+      IpldZcash.util.serialize(dagNode, (err, binaryBlob) => {
         expect(err).to.not.exist()
         expect(binaryBlob).to.deep.equal(fixtureBlock)
         done()
@@ -124,7 +44,7 @@ describe('IPLD format util API serialize()', () => {
   })
 
   it('should error on an invalid internal representation', (done) => {
-    IpldBitcoin.util.serialize(invalidDagNode, (err, binaryBlob) => {
+    IpldZcash.util.serialize(invalidDagNode, (err, binaryBlob) => {
       expect(binaryBlob).to.not.exist()
       expect(err).to.be.an('error')
       done()
@@ -134,17 +54,17 @@ describe('IPLD format util API serialize()', () => {
 
 describe('IPLD format util API cid()', () => {
   it('should encode the CID correctly', (done) => {
-    IpldBitcoin.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid(
         dagNode,
-        '56203ec2c691d447b2fd0d6a94742345af1f351037dab1ab9e900200000000000000',
+        '5620e1451fd8fecefdd9d443f294bc5ae918301922088ba51d35a2a4672c00000000',
         done)
     })
   })
 
   it('should error on an invalid internal representation', (done) => {
-    IpldBitcoin.util.cid(invalidDagNode, (err, cid) => {
+    IpldZcash.util.cid(invalidDagNode, (err, cid) => {
       expect(cid).to.not.exist()
       expect(err).to.be.an('error')
       done()
@@ -152,17 +72,19 @@ describe('IPLD format util API cid()', () => {
   })
 })
 
-const verifyBlock = (dagNode, expected) => {
-  expect(dagNode.version).to.equal(expected.version)
-  expect(dagNode.prevHash.toString('hex')).to.equal(expected.prevHash)
-  expect(dagNode.merkleRoot.toString('hex')).to.equal(expected.merkleRoot)
-  expect(dagNode.timestamp).to.equal(expected.timestamp)
-  expect(dagNode.bits).to.equal(expected.bits)
-  expect(dagNode.nonce).to.equal(expected.nonce)
+const verifyBlock = (header, expected) => {
+  expect(header.version).to.equal(expected.version)
+  expect(header.prevHash.toString('hex')).to.equal(expected.prevHash)
+  expect(header.merkleRoot.toString('hex')).to.equal(expected.merkleRoot)
+  expect(header.reserved.toString('hex')).to.equal(expected.reserved)
+  expect(header.time).to.equal(expected.time)
+  expect(header.bits).to.equal(expected.bits)
+  expect(header.nonce.toString('hex')).to.equal(expected.nonce)
+  expect(header.solution.toString('hex')).to.equal(expected.solution)
 }
 
 const verifyCid = (dagNode, expectedCid, doneCb) => {
-  IpldBitcoin.util.cid(dagNode, (err, cid) => {
+  IpldZcash.util.cid(dagNode, (err, cid) => {
     expect(err).to.not.exist()
     expect(cid.multihash.toString('hex')).to.equal(expectedCid)
     doneCb()

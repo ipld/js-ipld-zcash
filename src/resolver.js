@@ -12,12 +12,12 @@ const util = require('./util')
  *   for further resolving.
  */
 /**
- * Resolves a path in a Bitcoin block.
+ * Resolves a path in a Zcash block.
  *
  * Returns the value or a link and the partial mising path. This way the
  * IPLD Resolver can fetch the link and continue to resolve.
  *
- * @param {Buffer} binaryBlob - Binary representation of a Bitcoin block
+ * @param {Buffer} binaryBlob - Binary representation of a Zcash block
  * @param {string} [path='/'] - Path that should be resolved
  * @param {ResolveCallback} callback - Callback that handles the return value
  * @returns {void}
@@ -44,7 +44,7 @@ const resolve = (binaryBlob, path, callback) => {
     const pathArray = path.split('/')
     // `/` is the first element
     pathArray.shift()
-    const value = resolveField(dagNode, pathArray[0])
+    const value = resolveField(dagNode.header, pathArray[0])
     if (value === null) {
       return callback(new Error('No such path'), null)
     }
@@ -79,7 +79,7 @@ const resolve = (binaryBlob, path, callback) => {
 /**
  * Return all available paths of a block.
  *
- * @param {Buffer} binaryBlob - Binary representation of a Bitcoin block
+ * @param {Buffer} binaryBlob - Binary representation of a Zcash block
  * @param {Object} [options] - Possible options
  * @param {boolean} [options.values=false] - Retun only the paths by default.
  *   If it is `true` also return the values
@@ -99,12 +99,12 @@ const tree = (binaryBlob, options, callback) => {
     }
 
     const paths = ['/version', '/timestamp', '/difficulty', '/nonce',
-      '/parent', '/tx']
+      '/solution', '/reserved', '/parent', '/tx']
 
     if (options.values === true) {
       const pathValues = {}
       for (let path of paths) {
-        pathValues[path] = resolveField(dagNode, path.substr(1))
+        pathValues[path] = resolveField(dagNode.header, path.substr(1))
       }
       return callback(null, pathValues)
     } else {
@@ -114,20 +114,24 @@ const tree = (binaryBlob, options, callback) => {
 }
 
 // Return top-level fields. Returns `null` if field doesn't exist
-const resolveField = (dagNode, field) => {
+const resolveField = (header, field) => {
   switch (field) {
     case 'version':
-      return dagNode.version
+      return header.version
     case 'timestamp':
-      return dagNode.timestamp
+      return header.time
     case 'difficulty':
-      return dagNode.bits
+      return header.bits
     case 'nonce':
-      return dagNode.nonce
+      return header.nonce
+    case 'solution':
+      return header.solution
+    case 'reserved':
+      return header.reserved
     case 'parent':
-      return {'/': util.hashToCid(dagNode.prevHash)}
+      return {'/': util.hashToCid(header.prevHash)}
     case 'tx':
-      return {'/': util.hashToCid(dagNode.merkleRoot)}
+      return {'/': util.hashToCid(header.merkleRoot)}
     default:
       return null
   }
