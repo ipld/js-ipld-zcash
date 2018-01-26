@@ -138,6 +138,7 @@ const resolveField = (header, field) => {
 }
 
 module.exports = {
+  multicodec: 'zcash-block',
   resolve: resolve,
   tree: tree
 }
