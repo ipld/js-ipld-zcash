@@ -155,6 +155,13 @@ describe('IPLD format resolver API tree()', () => {
   })
 })
 
+describe('IPLD format resolver API properties', () => {
+  it('should have `multicodec` defined correctly', (done) => {
+    expect(IpldZcash.resolver.multicodec).to.equal('zcash-block')
+    done()
+  })
+})
+
 const verifyPath = (block, path, expected, done) => {
   IpldZcash.resolver.resolve(block, path, (err, value) => {
     expect(err).to.not.exist()
