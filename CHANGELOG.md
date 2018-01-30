@@ -17,6 +17,25 @@
 
 
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/ipld/js-ipld-zcash/compare/v0.1.2...v0.1.1) (2018-01-30)
+
+
+### Bug Fixes
+
+* add proper error handling for util API ([dacb7b1](https://github.com/ipld/js-ipld-zcash/commit/dacb7b1))
+* export `multicodec` property ([6a1e949](https://github.com/ipld/js-ipld-zcash/commit/6a1e949))
+* the option in tree() is called `values` ([568c075](https://github.com/ipld/js-ipld-zcash/commit/568c075))
+
+
+### Features
+
+* Add resolve() method ([25cef82](https://github.com/ipld/js-ipld-zcash/commit/25cef82))
+* Add tree() method ([685889d](https://github.com/ipld/js-ipld-zcash/commit/685889d))
+* implementation of IPLD format for Zcash ([47d950f](https://github.com/ipld/js-ipld-zcash/commit/47d950f))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/ipld/js-ipld-zcash/compare/v0.1.1...v0.1.2) (2018-01-10)
 
