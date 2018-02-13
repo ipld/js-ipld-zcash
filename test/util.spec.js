@@ -8,7 +8,7 @@ const expect = chai.expect
 chai.use(dirtyChai)
 const IpldZcash = require('../src/index')
 
-const fixtureBlockHex = loadFixture(__dirname, 'fixtures/block.hex')
+const fixtureBlockHex = loadFixture('test/fixtures/block.hex')
 const fixtureBlock = Buffer.from(fixtureBlockHex.toString(), 'hex')
 const invalidDagNode = {invalid: 'dagNode'}
 
