@@ -1,3 +1,14 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/ipld/js-ipld-zcash/compare/v0.1.2...v0.1.3) (2018-02-14)
+
+
+### Bug Fixes
+
+* path never start with a slash ([ce90dcd](https://github.com/ipld/js-ipld-zcash/commit/ce90dcd))
+* **tests:** Aegir changed fixture API ([dfe7b3d](https://github.com/ipld/js-ipld-zcash/commit/dfe7b3d))
+
+
+
 <a name="0.1.2"></a>
 ## 0.1.2 (2018-01-30)
 
