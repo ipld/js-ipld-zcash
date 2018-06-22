@@ -137,6 +137,7 @@ const resolveField = (header, field) => {
 
 module.exports = {
   multicodec: 'zcash-block',
+  defaultHashAlg: 'dbl-sha2-256',
   resolve: resolve,
   tree: tree
 }
