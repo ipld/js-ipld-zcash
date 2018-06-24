@@ -164,6 +164,11 @@ describe('IPLD format resolver API properties', () => {
     expect(IpldZcash.resolver.multicodec).to.equal('zcash-block')
     done()
   })
+
+  it('should have `defaultHashAlg` defined correctly', (done) => {
+    expect(IpldZcash.resolver.defaultHashAlg).to.equal('dbl-sha2-256')
+    done()
+  })
 })
 
 const verifyPath = (block, path, expected, done) => {
