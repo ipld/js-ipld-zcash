@@ -74,6 +74,17 @@ describe('IPLD format util API cid()', () => {
     })
   })
 
+  it('should encode the CID correctly and ignore undefined options', (done) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+      expect(err).to.not.exist()
+      verifyCid1(
+        dagNode,
+        undefined,
+        '5620e1451fd8fecefdd9d443f294bc5ae918301922088ba51d35a2a4672c00000000',
+        done)
+    })
+  })
+
   it('should error on an invalid internal representation', (done) => {
     IpldZcash.util.cid(invalidDagNode, (err, cid) => {
       expect(cid).to.not.exist()
