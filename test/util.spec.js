@@ -63,6 +63,28 @@ describe('IPLD format util API cid()', () => {
     })
   })
 
+  it('should encode the CID correctly and ignore options', (done) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+      expect(err).to.not.exist()
+      verifyCid1(
+        dagNode,
+        { hashAlg: 'unknown' },
+        '5620e1451fd8fecefdd9d443f294bc5ae918301922088ba51d35a2a4672c00000000',
+        done)
+    })
+  })
+
+  it('should encode the CID correctly and ignore undefined options', (done) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+      expect(err).to.not.exist()
+      verifyCid1(
+        dagNode,
+        undefined,
+        '5620e1451fd8fecefdd9d443f294bc5ae918301922088ba51d35a2a4672c00000000',
+        done)
+    })
+  })
+
   it('should error on an invalid internal representation', (done) => {
     IpldZcash.util.cid(invalidDagNode, (err, cid) => {
       expect(cid).to.not.exist()
@@ -85,6 +107,14 @@ const verifyBlock = (header, expected) => {
 
 const verifyCid = (dagNode, expectedCid, doneCb) => {
   IpldZcash.util.cid(dagNode, (err, cid) => {
+    expect(err).to.not.exist()
+    expect(cid.multihash.toString('hex')).to.equal(expectedCid)
+    doneCb()
+  })
+}
+
+const verifyCid1 = (dagNode, options, expectedCid, doneCb) => {
+  IpldZcash.util.cid(dagNode, options, (err, cid) => {
     expect(err).to.not.exist()
     expect(cid.multihash.toString('hex')).to.equal(expectedCid)
     doneCb()
