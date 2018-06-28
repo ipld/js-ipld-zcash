@@ -63,14 +63,35 @@ describe('IPLD format util API cid()', () => {
     })
   })
 
-  it('should encode the CID correctly and ignore options', (done) => {
+  it('should encode the CID correctly with default options specified', (done) => {
     IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid1(
         dagNode,
-        { hashAlg: 'unknown' },
+        { version: 1, hashAlg: 'dbl-sha2-256' },
         '5620e1451fd8fecefdd9d443f294bc5ae918301922088ba51d35a2a4672c00000000',
         done)
+    })
+  })
+
+  it('should encode the CID correctly with options', (done) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+      expect(err).to.not.exist()
+      verifyCid1(
+        dagNode,
+        { hashAlg: 'sha3-256' },
+        '1620426585d4624b64080d96788c8199562e73fc60f32fde54a82b36f4204c046ce6',
+        done)
+    })
+  })
+
+  it('should error unknown hash algorithm', (done) => {
+    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+      expect(err).to.not.exist()
+      IpldZcash.util.cid(dagNode, { hashAlg: 'unknown' }, (err, cid) => {
+        expect(err).to.exist()
+        done()
+      })
     })
   })
 
