@@ -1,3 +1,20 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/ipld/js-ipld-zcash/compare/v0.1.3...v0.1.4) (2018-06-29)
+
+
+### Bug Fixes
+
+* do not ignore cid.options ([#15](https://github.com/ipld/js-ipld-zcash/issues/15)) ([32a89f3](https://github.com/ipld/js-ipld-zcash/commit/32a89f3))
+* use multihashing-async ([#12](https://github.com/ipld/js-ipld-zcash/issues/12)) ([dfffd96](https://github.com/ipld/js-ipld-zcash/commit/dfffd96)), closes [#7](https://github.com/ipld/js-ipld-zcash/issues/7)
+
+
+### Features
+
+* add defaultHashAlg ([#10](https://github.com/ipld/js-ipld-zcash/issues/10)) ([8ecdb53](https://github.com/ipld/js-ipld-zcash/commit/8ecdb53))
+* add util.cid options ([#11](https://github.com/ipld/js-ipld-zcash/issues/11)) ([8384849](https://github.com/ipld/js-ipld-zcash/commit/8384849)), closes [ipld/interface-ipld-format#40](https://github.com/ipld/interface-ipld-format/issues/40)
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/ipld/js-ipld-zcash/compare/v0.1.2...v0.1.3) (2018-02-14)
 
