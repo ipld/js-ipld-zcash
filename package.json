@@ -40,7 +40,7 @@
     "zcash-bitcore-lib": "~0.13.20-rc3"
   },
   "devDependencies": {
-    "aegir": "^14.0.0",
+    "aegir": "^15.0.0",
     "chai": "^4.1.2"
   },
   "contributors": [
