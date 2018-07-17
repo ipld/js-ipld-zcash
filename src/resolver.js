@@ -42,7 +42,7 @@ const resolve = (binaryBlob, path, callback) => {
     }
 
     const pathArray = path.split('/')
-    const value = resolveField(dagNode.header, pathArray[0])
+    const value = resolveField(dagNode, pathArray[0])
     if (value === null) {
       return callback(new Error('No such path'), null)
     }
@@ -102,7 +102,7 @@ const tree = (binaryBlob, options, callback) => {
     if (options.values === true) {
       const pathValues = {}
       for (let path of paths) {
-        pathValues[path] = resolveField(dagNode.header, path)
+        pathValues[path] = resolveField(dagNode, path)
       }
       return callback(null, pathValues)
     } else {

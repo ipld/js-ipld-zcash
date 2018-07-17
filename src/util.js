@@ -1,10 +1,12 @@
 'use strict'
 
-const ZcashBitcoreBlock = require('zcash-bitcore-lib').Block
+const ZcashBitcoreBlockHeader = require('zcash-bitcore-lib').BlockHeader
 const CID = require('cids')
 const multihashes = require('multihashes')
 const multihashing = require('multihashing-async')
 const waterfall = require('async/waterfall')
+
+const ZCASH_BLOCK_HEADER_SIZE = 1487
 
 /**
  * @callback SerializeCallback
@@ -47,15 +49,14 @@ const serialize = (dagNode, callback) => {
  * @returns {void}
  */
 const deserialize = (binaryBlob, callback) => {
-  let err = null
-  let dagNode
-  try {
-    dagNode = ZcashBitcoreBlock.fromBuffer(binaryBlob)
-  } catch (deserializeError) {
-    err = deserializeError
-  } finally {
-    callback(err, dagNode)
+  if (binaryBlob.length !== ZCASH_BLOCK_HEADER_SIZE) {
+    const err = new Error(
+      `Zcash block header needs to be ${ZCASH_BLOCK_HEADER_SIZE} bytes`)
+    return callback(err)
   }
+
+  const dagNode = ZcashBitcoreBlockHeader.fromBuffer(binaryBlob)
+  callback(null, dagNode)
 }
 
 /**
@@ -85,7 +86,7 @@ const cid = (dagNode, options, callback) => {
   waterfall([
     (cb) => {
       try {
-        multihashing(dagNode.header.toBuffer(true), hashAlg, cb)
+        multihashing(dagNode.toBuffer(), hashAlg, cb)
       } catch (err) {
         cb(err)
       }
@@ -106,6 +107,7 @@ const hashToCid = (hash) => {
 
 module.exports = {
   hashToCid: hashToCid,
+  ZCASH_BLOCK_HEADER_SIZE: ZCASH_BLOCK_HEADER_SIZE,
 
   // Public API
   cid: cid,

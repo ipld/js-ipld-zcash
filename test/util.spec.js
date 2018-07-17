@@ -7,16 +7,17 @@ const dirtyChai = require('dirty-chai')
 const expect = chai.expect
 chai.use(dirtyChai)
 const IpldZcash = require('../src/index')
+const helpers = require('./helpers')
 
 const fixtureBlockHex = loadFixture('test/fixtures/block.hex')
-const fixtureBlock = Buffer.from(fixtureBlockHex.toString(), 'hex')
+const fixtureBlockHeader = helpers.headerFromHexBlock(fixtureBlockHex)
 const invalidDagNode = {invalid: 'dagNode'}
 
 describe('IPLD format util API deserialize()', () => {
   it('should work correctly', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
-      verifyBlock(dagNode.header, {
+      verifyBlock(dagNode, {
         version: 4,
         prevHash: '960143fe2c5e22cc0bf0cd5534d7f7f4347f4e75223d07379b9af71400000000',
         merkleRoot: '947863a7d7a980a00ef54ce761dcb7b21f4b95fdaf4822f16f37a0e2dea8643e',
@@ -29,15 +30,24 @@ describe('IPLD format util API deserialize()', () => {
       done()
     })
   })
+
+  it('should error on an invalid block', (done) => {
+    const invalidBlock = Buffer.from('abcdef', 'hex')
+    IpldZcash.util.deserialize(invalidBlock, (err, dagNode) => {
+      expect(dagNode).to.not.exist()
+      expect(err).to.be.an('error')
+      done()
+    })
+  })
 })
 
 describe('IPLD format util API serialize()', () => {
   it('should round-trip (de)serialization correctly', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       IpldZcash.util.serialize(dagNode, (err, binaryBlob) => {
         expect(err).to.not.exist()
-        expect(binaryBlob).to.deep.equal(fixtureBlock)
+        expect(binaryBlob).to.deep.equal(fixtureBlockHeader)
         done()
       })
     })
@@ -54,7 +64,7 @@ describe('IPLD format util API serialize()', () => {
 
 describe('IPLD format util API cid()', () => {
   it('should encode the CID correctly', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid(
         dagNode,
@@ -64,7 +74,7 @@ describe('IPLD format util API cid()', () => {
   })
 
   it('should encode the CID correctly with default options specified', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid1(
         dagNode,
@@ -75,7 +85,7 @@ describe('IPLD format util API cid()', () => {
   })
 
   it('should encode the CID correctly with options', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid1(
         dagNode,
@@ -86,7 +96,7 @@ describe('IPLD format util API cid()', () => {
   })
 
   it('should error unknown hash algorithm', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       IpldZcash.util.cid(dagNode, { hashAlg: 'unknown' }, (err, cid) => {
         expect(err).to.exist()
@@ -96,7 +106,7 @@ describe('IPLD format util API cid()', () => {
   })
 
   it('should encode the CID correctly and ignore undefined options', (done) => {
-    IpldZcash.util.deserialize(fixtureBlock, (err, dagNode) => {
+    IpldZcash.util.deserialize(fixtureBlockHeader, (err, dagNode) => {
       expect(err).to.not.exist()
       verifyCid1(
         dagNode,
