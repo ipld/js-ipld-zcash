@@ -1,3 +1,13 @@
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/ipld/js-ipld-zcash/compare/v0.1.4...v0.1.5) (2018-07-19)
+
+
+### Bug Fixes
+
+* use block headers only ([fdfe4e4](https://github.com/ipld/js-ipld-zcash/commit/fdfe4e4))
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/ipld/js-ipld-zcash/compare/v0.1.3...v0.1.4) (2018-06-29)
 
