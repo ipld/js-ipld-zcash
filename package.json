@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/ipld/js-ipld-zcash#readme",
   "dependencies": {
+    "async": "^2.6.1",
     "cids": "~0.5.2",
     "dirty-chai": "^2.0.1",
     "multihashes": "~0.4.12",
