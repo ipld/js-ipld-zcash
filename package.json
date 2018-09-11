@@ -35,14 +35,14 @@
   "dependencies": {
     "async": "^2.6.1",
     "cids": "~0.5.2",
-    "dirty-chai": "^2.0.1",
     "multihashes": "~0.4.12",
     "multihashing-async": "~0.5.1",
     "zcash-bitcore-lib": "~0.13.20-rc3"
   },
   "devDependencies": {
     "aegir": "^15.0.0",
-    "chai": "^4.1.2"
+    "chai": "^4.1.2",
+    "dirty-chai": "^2.0.1"
   },
   "contributors": [
     "David Dias <daviddias.p@gmail.com>",
