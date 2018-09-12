@@ -1,3 +1,13 @@
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/ipld/js-ipld-zcash/compare/v0.1.5...v0.1.6) (2018-09-12)
+
+
+### Bug Fixes
+
+* add missing async dependency ([57e85c7](https://github.com/ipld/js-ipld-zcash/commit/57e85c7))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/ipld/js-ipld-zcash/compare/v0.1.4...v0.1.5) (2018-07-19)
 
