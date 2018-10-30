@@ -71,12 +71,8 @@ Though it can also be used as a standalone module:
 const IpldZcash = require('ipld-zcash')
 
 // `zcashBlock` is some binary Zcash block
-IpldZcash.util.deserialize(zcashBlock, (err, dagNode) => {
-  if (err) {
-    throw err
-  }
-  console.log(dagNode)
-})
+const dagNode = await IpldZcash.util.deserialize(zcashBlock)
+console.log(dagNode)
 ```
 
 ## Contribute
