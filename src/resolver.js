@@ -127,9 +127,9 @@ const resolveField = (header, field) => {
     case 'reserved':
       return header.reserved
     case 'parent':
-      return {'/': util.hashToCid(header.prevHash)}
+      return { '/': util.hashToCid(header.prevHash) }
     case 'tx':
-      return {'/': util.hashToCid(header.merkleRoot)}
+      return { '/': util.hashToCid(header.merkleRoot) }
     default:
       return null
   }
