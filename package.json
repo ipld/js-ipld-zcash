@@ -34,7 +34,7 @@
   "homepage": "https://github.com/ipld/js-ipld-zcash#readme",
   "dependencies": {
     "async": "^2.6.1",
-    "cids": "~0.5.2",
+    "cids": "github:multiformats/js-cid#refactor/cidv1base32-default",
     "multihashes": "~0.4.12",
     "multihashing-async": "~0.5.1",
     "zcash-bitcore-lib": "~0.13.20-rc3"
