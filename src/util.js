@@ -2,104 +2,94 @@
 
 const ZcashBitcoreBlockHeader = require('zcash-bitcore-lib').BlockHeader
 const CID = require('cids')
+const multicodec = require('multicodec')
 const multihashes = require('multihashes')
 const multihashing = require('multihashing-async')
-const waterfall = require('async/waterfall')
 
 const ZCASH_BLOCK_HEADER_SIZE = 1487
+const CODEC = multicodec.ZCASH_BLOCK
+const DEFAULT_HASH_ALG = multicodec.DBL_SHA2_256
 
-/**
- * @callback SerializeCallback
- * @param {?Error} error - Error if serialization failed
- * @param {?Buffer} binaryBlob - Binary Zcash block if serialization was
- *   successful
- */
 /**
  * Serialize internal representation into a binary Zcash block.
  *
  * @param {ZcashBlock} dagNode - Internal representation of a Zcash block
- * @param {SerializeCallback} callback - Callback that handles the
- *   return value
- * @returns {void}
+ * @returns {Buffer}
  */
-const serialize = (dagNode, callback) => {
-  let err = null
-  let binaryBlob
-  try {
-    binaryBlob = dagNode.toBuffer()
-  } catch (serializeError) {
-    err = serializeError
-  } finally {
-    callback(err, binaryBlob)
-  }
+const serialize = (dagNode) => {
+  return dagNode.toBuffer()
 }
 
 /**
- * @callback DeserializeCallback
- * @param {?Error} error - Error if deserialization failed
- * @param {?ZcashBlock} dagNode - Internal representation of a Zcash block
- *   if deserialization was successful
- */
-/**
- * Deserialize Zcash block into the internal representation,
+ * Deserialize Zcash block into the internal representation.
  *
  * @param {Buffer} binaryBlob - Binary representation of a Zcash block
- * @param {DeserializeCallback} callback - Callback that handles the
- *   return value
- * @returns {void}
+ * @returns {ZcashBlock}
  */
-const deserialize = (binaryBlob, callback) => {
+const deserialize = (binaryBlob) => {
   if (binaryBlob.length !== ZCASH_BLOCK_HEADER_SIZE) {
-    const err = new Error(
+    throw new Error(
       `Zcash block header needs to be ${ZCASH_BLOCK_HEADER_SIZE} bytes`)
-    return callback(err)
   }
 
-  const dagNode = ZcashBitcoreBlockHeader.fromBuffer(binaryBlob)
-  callback(null, dagNode)
+  const deserialized = ZcashBitcoreBlockHeader.fromBuffer(binaryBlob)
+
+  const getters = {
+    difficulty: function () {
+      return this.bits
+    },
+    parent: function () {
+      return hashToCid(this.prevHash)
+    },
+    tx: function () {
+      return hashToCid(this.merkleRoot)
+    }
+  }
+  Object.entries(getters).forEach(([name, fun]) => {
+    Object.defineProperty(deserialized, name, {
+      enumerable: true,
+      get: fun
+    })
+  })
+
+  const removeEnumberables = [
+    'bits',
+    'merkleRoot',
+    'prevHash',
+    'time'
+  ]
+  removeEnumberables.forEach((field) => {
+    if (field in deserialized) {
+      Object.defineProperty(deserialized, field, { enumerable: false })
+    }
+  })
+
+  return deserialized
 }
 
 /**
- * @callback CidCallback
- * @param {?Error} error - Error if getting the CID failed
- * @param {?CID} cid - CID if call was successful
- */
-/**
- * Get the CID of the DAG-Node.
+ * Calculate the CID of the binary blob.
  *
- * @param {ZcashBlock} dagNode - Internal representation of a Zcash block
- * @param {Object} [options] - Options to create the CID
- * @param {number} [options.version=1] - CID version number
- * @param {string} [options.hashAlg='dbl-sha2-256'] - Hashing algorithm
- * @param {CidCallback} callback - Callback that handles the return value
- * @returns {void}
+ * @param {Object} binaryBlob - Encoded IPLD Node
+ * @param {Object} [userOptions] - Options to create the CID
+ * @param {number} [userOptions.cidVersion=1] - CID version number
+ * @param {string} [UserOptions.hashAlg] - Defaults to the defaultHashAlg of the format
+ * @returns {Promise.<CID>}
  */
-const cid = (dagNode, options, callback) => {
-  if (typeof options === 'function') {
-    callback = options
-    options = {}
-  }
-  options = options || {}
-  // avoid deadly embrace between resolver and util
-  const hashAlg = options.hashAlg || require('./resolver').defaultHashAlg
-  const version = typeof options.version === 'undefined' ? 1 : options.version
-  waterfall([
-    (cb) => {
-      try {
-        multihashing(dagNode.toBuffer(), hashAlg, cb)
-      } catch (err) {
-        cb(err)
-      }
-    },
-    (mh, cb) => cb(null, new CID(version, 'zcash-block', mh))
-  ], callback)
+const cid = async (binaryBlob, userOptions) => {
+  const defaultOptions = { cidVersion: 1, hashAlg: DEFAULT_HASH_ALG }
+  const options = Object.assign(defaultOptions, userOptions)
+
+  const multihash = await multihashing(binaryBlob, options.hashAlg)
+  const codecName = multicodec.print[CODEC]
+  const cid = new CID(options.cidVersion, codecName, multihash)
+
+  return cid
 }
 
 // Convert a Zcash hash (as Buffer) to a CID
 const hashToCid = (hash) => {
-  // avoid deadly embrace between resolver and util
-  const defaultHashAlg = require('./resolver').defaultHashAlg
-  const multihash = multihashes.encode(hash, defaultHashAlg)
+  const multihash = multihashes.encode(hash, DEFAULT_HASH_ALG)
   const cidVersion = 1
   const cid = new CID(cidVersion, 'zcash-block', multihash)
   return cid
@@ -108,6 +98,8 @@ const hashToCid = (hash) => {
 module.exports = {
   hashToCid: hashToCid,
   ZCASH_BLOCK_HEADER_SIZE: ZCASH_BLOCK_HEADER_SIZE,
+  codec: CODEC,
+  defaultHashAlg: DEFAULT_HASH_ALG,
 
   // Public API
   cid: cid,
