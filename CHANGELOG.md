@@ -1,3 +1,31 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ipld/js-ipld-zcash/compare/v0.1.6...v0.2.0) (2019-05-08)
+
+
+### Bug Fixes
+
+* **package:** update cids to version 0.6.0 ([866cfb7](https://github.com/ipld/js-ipld-zcash/commit/866cfb7))
+* **package:** update multihashing-async to version 0.6.0 ([b7e3801](https://github.com/ipld/js-ipld-zcash/commit/b7e3801))
+
+
+### Features
+
+* new IPLD Format API ([68f3685](https://github.com/ipld/js-ipld-zcash/commit/68f3685))
+
+
+### BREAKING CHANGES
+
+* The API is now async/await based
+
+There are numerous changes, the most significant one is that the API
+is no longer callback based, but it using async/await.
+
+For the full new API please see the [IPLD Formats spec].
+
+[IPLD Formats spec]: https://github.com/ipld/interface-ipld-format
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/ipld/js-ipld-zcash/compare/v0.1.5...v0.1.6) (2018-09-12)
 
