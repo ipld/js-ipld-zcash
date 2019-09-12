@@ -36,7 +36,7 @@
     "cids": "~0.7.0",
     "multicodec": "~0.5.1",
     "multihashes": "~0.4.12",
-    "multihashing-async": "~0.7.0",
+    "multihashing-async": "~0.8.0",
     "zcash-bitcore-lib": "~0.13.20-rc3"
   },
   "devDependencies": {
