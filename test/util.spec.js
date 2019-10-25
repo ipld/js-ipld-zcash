@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 'use strict'
 
-const loadFixture = require('aegir/fixtures')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const dirtyChai = require('dirty-chai')
@@ -13,18 +12,16 @@ const multicodec = require('multicodec')
 const IpldZcash = require('../src/index')
 const helpers = require('./helpers')
 
-const fixtureBlockHex = loadFixture('test/fixtures/block.hex')
-const fixtureBlockHeader = helpers.headerFromHexBlock(fixtureBlockHex)
-const invalidDagNode = { invalid: 'dagNode' }
+const fixtures = helpers.loadFixtures()
 
 describe('IPLD format util API deserialize()', () => {
   it('should work correctly', () => {
-    const dagNode = IpldZcash.util.deserialize(fixtureBlockHeader)
+    const dagNode = IpldZcash.util.deserialize(fixtures.blockHeader)
     verifyBlock(dagNode, {
       version: 4,
-      prevHash: '960143fe2c5e22cc0bf0cd5534d7f7f4347f4e75223d07379b9af71400000000',
-      merkleRoot: '947863a7d7a980a00ef54ce761dcb7b21f4b95fdaf4822f16f37a0e2dea8643e',
-      reserved: '0000000000000000000000000000000000000000000000000000000000000000',
+      previousblockhash: '960143fe2c5e22cc0bf0cd5534d7f7f4347f4e75223d07379b9af71400000000',
+      merkleroot: '947863a7d7a980a00ef54ce761dcb7b21f4b95fdaf4822f16f37a0e2dea8643e',
+      finalsaplingroot: '0000000000000000000000000000000000000000000000000000000000000000',
       time: 1481233847,
       bits: 477875354,
       nonce: '8200000000000000d548af969ea8dceedb6bfad4000000000000000000000000',
@@ -36,20 +33,15 @@ describe('IPLD format util API deserialize()', () => {
     const invalidBlock = Buffer.from('abcdef', 'hex')
     expect(() => {
       IpldZcash.util.deserialize(invalidBlock)
-    }).to.throw('Zcash block header needs to be 1487 bytes')
+    }).to.throw('Zcash block must at least include the 1487 header bytes')
   })
 })
 
 describe('IPLD format util API serialize()', () => {
-  it('should round-trip (de)serialization correctly', () => {
-    const dagNode = IpldZcash.util.deserialize(fixtureBlockHeader)
-    const binaryBlob = IpldZcash.util.serialize(dagNode)
-    expect(binaryBlob).to.deep.equal(fixtureBlockHeader)
-  })
-
-  it('should error on an invalid internal representation', () => {
+  it('should not be able to serialize', () => {
+    const dagNode = IpldZcash.util.deserialize(fixtures.blockHeader)
     expect(() => {
-      IpldZcash.util.serialize(invalidDagNode)
+      IpldZcash.util.serialize(dagNode)
     }).to.throw()
   })
 })
@@ -60,12 +52,12 @@ describe('IPLD format util API cid()', () => {
     'hex'))
 
   it('should encode the CID correctly', async () => {
-    const cid = await IpldZcash.util.cid(fixtureBlockHeader)
+    const cid = await IpldZcash.util.cid(fixtures.blockHeader)
     expect(cid.equals(expectedCid)).to.be.true()
   })
 
   it('should encode the CID correctly with default options specified', async () => {
-    const cid = await IpldZcash.util.cid(fixtureBlockHeader, {
+    const cid = await IpldZcash.util.cid(fixtures.blockHeader, {
       cidVersion: 1,
       hashAlg: multicodec.DBL_SHA2_256
     })
@@ -73,7 +65,7 @@ describe('IPLD format util API cid()', () => {
   })
 
   it('should encode the CID correctly with options', async () => {
-    const cid = await IpldZcash.util.cid(fixtureBlockHeader, {
+    const cid = await IpldZcash.util.cid(fixtures.blockHeader, {
       hashAlg: multicodec.SHA3_256
     })
     expect(cid.equals(new CID(1, 'zcash-block', Buffer.from(
@@ -82,19 +74,28 @@ describe('IPLD format util API cid()', () => {
     )))).to.be.true()
   })
 
+  it('should match encoded CID and block CID', async () => {
+    const cid = await IpldZcash.util.cid(fixtures.blockHeader)
+    const dagNode = IpldZcash.util.deserialize(fixtures.blockHeader)
+    expect(cid.equals(dagNode.cid)).to.be.true()
+  })
+
   it('should error unknown hash algorithm', async () => {
     await expect(
-      IpldZcash.util.cid(fixtureBlockHeader, { hashAlg: 0xffffff })
+      IpldZcash.util.cid(fixtures.blockHeader, { hashAlg: 0xffffff })
     ).to.be.rejectedWith('Unrecognized function code: 16777215')
   })
 })
 
 const verifyBlock = (header, expected) => {
   expect(header.version).to.equal(expected.version)
-  expect(header.prevHash.toString('hex')).to.equal(expected.prevHash)
-  expect(header.merkleRoot.toString('hex')).to.equal(expected.merkleRoot)
-  expect(header.reserved.toString('hex')).to.equal(expected.reserved)
+  expect(header.previousblockhash.toString('hex')).to.equal(expected.previousblockhash)
+  expect(header.merkleroot.toString('hex')).to.equal(expected.merkleroot)
+  expect(header.tx.toString('hex')).to.equal(expected.merkleroot)
+  expect(header.finalsaplingroot.toString('hex')).to.equal(expected.finalsaplingroot)
+  expect(header.reserved.toString('hex')).to.equal(expected.finalsaplingroot)
   expect(header.time).to.equal(expected.time)
+  expect(header.timestamp).to.equal(expected.time)
   expect(header.bits).to.equal(expected.bits)
   expect(header.nonce.toString('hex')).to.equal(expected.nonce)
   expect(header.solution.toString('hex')).to.equal(expected.solution)

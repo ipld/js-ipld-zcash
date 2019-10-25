@@ -37,7 +37,7 @@
     "multicodec": "~0.5.1",
     "multihashes": "~0.4.12",
     "multihashing-async": "~0.8.0",
-    "zcash-bitcore-lib": "~0.13.20-rc3"
+    "zcash-block": "^2.0.0"
   },
   "devDependencies": {
     "aegir": "^20.0.0",

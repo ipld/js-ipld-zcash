@@ -1,6 +1,6 @@
 'use strict'
 
-const ZcashBitcoreBlockHeader = require('zcash-bitcore-lib').BlockHeader
+const ZcashBlock = require('zcash-block')
 const CID = require('cids')
 const multicodec = require('multicodec')
 const multihashes = require('multihashes')
@@ -11,13 +11,12 @@ const CODEC = multicodec.ZCASH_BLOCK
 const DEFAULT_HASH_ALG = multicodec.DBL_SHA2_256
 
 /**
- * Serialize internal representation into a binary Zcash block.
+ * Unsupported, this codec cannot serialize Zcash blocks.
  *
  * @param {ZcashBlock} dagNode - Internal representation of a Zcash block
- * @returns {Buffer}
  */
 const serialize = (dagNode) => {
-  return dagNode.toBuffer()
+  throw new Error('Unsupported operation')
 }
 
 /**
@@ -27,42 +26,23 @@ const serialize = (dagNode) => {
  * @returns {ZcashBlock}
  */
 const deserialize = (binaryBlob) => {
-  if (binaryBlob.length !== ZCASH_BLOCK_HEADER_SIZE) {
-    throw new Error(
-      `Zcash block header needs to be ${ZCASH_BLOCK_HEADER_SIZE} bytes`)
+  let deserialized
+
+  if (binaryBlob.length < ZCASH_BLOCK_HEADER_SIZE) {
+    throw new Error(`Zcash block must at least include the ${ZCASH_BLOCK_HEADER_SIZE} header bytes`)
+  } else if (binaryBlob.length === ZCASH_BLOCK_HEADER_SIZE) {
+    deserialized = ZcashBlock.decodeHeaderOnly(binaryBlob)
+  } else {
+    deserialized = ZcashBlock.decode(binaryBlob)
   }
 
-  const deserialized = ZcashBitcoreBlockHeader.fromBuffer(binaryBlob)
+  // for go-ipld-zcash compatibility
+  deserialized.timestamp = deserialized.time
+  deserialized.reserved = deserialized.finalsaplingroot
+  deserialized.tx = deserialized.merkleroot
 
-  const getters = {
-    difficulty: function () {
-      return this.bits
-    },
-    parent: function () {
-      return hashToCid(this.prevHash)
-    },
-    tx: function () {
-      return hashToCid(this.merkleRoot)
-    }
-  }
-  Object.entries(getters).forEach(([name, fun]) => {
-    Object.defineProperty(deserialized, name, {
-      enumerable: true,
-      get: fun
-    })
-  })
-
-  const removeEnumberables = [
-    'bits',
-    'merkleRoot',
-    'prevHash',
-    'time'
-  ]
-  removeEnumberables.forEach((field) => {
-    if (field in deserialized) {
-      Object.defineProperty(deserialized, field, { enumerable: false })
-    }
-  })
+  deserialized.cid = hashToCid(deserialized.hash)
+  deserialized.parent = hashToCid(deserialized.previousblockhash)
 
   return deserialized
 }

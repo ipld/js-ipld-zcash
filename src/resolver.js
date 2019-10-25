@@ -46,7 +46,7 @@ exports.resolve = (binaryBlob, path) => {
 const traverse = function * (node, path) {
   // Traverse only objects and arrays
   if (Buffer.isBuffer(node) || CID.isCID(node) || typeof node === 'string' ||
-      node === null) {
+      node == null) {
     return
   }
   for (const item of Object.keys(node)) {
