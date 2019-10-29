@@ -1,3 +1,21 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/ipld/js-ipld-zcash/compare/v0.3.0...v0.4.0) (2019-10-29)
+
+
+### Features
+
+* switch to zcash-block for decoding ([22bc170](https://github.com/ipld/js-ipld-zcash/commit/22bc170))
+
+
+### BREAKING CHANGES
+
+* Only deserialization is supported
+
+It is not possible anymore to serialize a Zcash Block. It will throw an
+"Unsupported operation" error.
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/ipld/js-ipld-zcash/compare/v0.2.0...v0.3.0) (2019-05-10)
 
