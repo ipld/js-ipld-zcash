@@ -1,6 +1,6 @@
 {
   "name": "ipld-zcash",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "JavaScript implementation of Zcash IPLD formats",
   "leadMaintainer": "Volker Mische <volker.mische@gmail.com>",
   "main": "src/index.js",
@@ -50,7 +50,9 @@
     "David Dias <daviddias.p@gmail.com>",
     "Mitra Ardron <mitra@mitra.biz>",
     "Richard Schneider <makaretu@gmail.com>",
+    "Rod Vagg <rod@vagg.org>",
     "Volker Mische <volker.mische@gmail.com>",
+    "greenkeeper[bot] <23040076+greenkeeper[bot]@users.noreply.github.com>",
     "greenkeeper[bot] <greenkeeper[bot]@users.noreply.github.com>"
   ]
 }
