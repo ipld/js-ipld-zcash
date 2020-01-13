@@ -1,3 +1,13 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/ipld/js-ipld-zcash/compare/v0.4.0...v0.4.1) (2020-01-13)
+
+
+### Bug Fixes
+
+* **package:** update multicodec to version 1.0.0 ([8d9ddea](https://github.com/ipld/js-ipld-zcash/commit/8d9ddea))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/ipld/js-ipld-zcash/compare/v0.3.0...v0.4.0) (2019-10-29)
 
