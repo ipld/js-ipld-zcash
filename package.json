@@ -40,7 +40,7 @@
     "zcash-block": "^2.0.0"
   },
   "devDependencies": {
-    "aegir": "^20.4.1",
+    "aegir": "^21.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1"
