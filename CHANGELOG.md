@@ -1,3 +1,13 @@
+<a name="0.4.3"></a>
+## [0.4.3](https://github.com/ipld/js-ipld-zcash/compare/v0.4.2...v0.4.3) (2020-07-23)
+
+
+### Bug Fixes
+
+* deserialize Uint8Arrays ([9a3edba](https://github.com/ipld/js-ipld-zcash/commit/9a3edba))
+
+
+
 <a name="0.4.2"></a>
 ## [0.4.2](https://github.com/ipld/js-ipld-zcash/compare/v0.4.1...v0.4.2) (2020-07-23)
 
