@@ -1,3 +1,13 @@
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/ipld/js-ipld-zcash/compare/v0.4.1...v0.4.2) (2020-07-23)
+
+
+### Bug Fixes
+
+* **package:** update cids to version 0.8.0 ([fe238ab](https://github.com/ipld/js-ipld-zcash/commit/fe238ab))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/ipld/js-ipld-zcash/compare/v0.4.0...v0.4.1) (2020-01-13)
 
