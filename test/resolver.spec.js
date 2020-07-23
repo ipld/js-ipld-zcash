@@ -8,6 +8,7 @@ chai.use(dirtyChai)
 const CID = require('cids')
 const IpldZcash = require('../src/index')
 const helpers = require('./helpers')
+const { Buffer } = require('buffer')
 
 const invalidBlock = Buffer.from('abcdef', 'hex')
 const fixtures = helpers.loadFixtures()
