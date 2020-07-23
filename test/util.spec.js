@@ -86,6 +86,10 @@ describe('IPLD format util API cid()', () => {
       IpldZcash.util.cid(fixtures.blockHeader, { hashAlg: 0xffffff })
     ).to.be.rejectedWith('Unrecognized function code: 16777215')
   })
+
+  it('should deserialize a Uint8Array', () => {
+    IpldZcash.util.deserialize(Uint8Array.from(fixtures.blockHeader))
+  })
 })
 
 const verifyBlock = (header, expected) => {

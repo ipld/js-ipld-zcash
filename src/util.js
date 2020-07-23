@@ -5,6 +5,7 @@ const CID = require('cids')
 const multicodec = require('multicodec')
 const multihashes = require('multihashes')
 const multihashing = require('multihashing-async')
+const { Buffer } = require('buffer')
 
 const ZCASH_BLOCK_HEADER_SIZE = 1487
 const CODEC = multicodec.ZCASH_BLOCK
@@ -27,6 +28,11 @@ const serialize = (dagNode) => {
  */
 const deserialize = (binaryBlob) => {
   let deserialized
+
+  if (!Buffer.isBuffer(binaryBlob)) {
+    // zcash only takes Buffers, not Uint8Arrays
+    binaryBlob = Buffer.from(binaryBlob)
+  }
 
   if (binaryBlob.length < ZCASH_BLOCK_HEADER_SIZE) {
     throw new Error(`Zcash block must at least include the ${ZCASH_BLOCK_HEADER_SIZE} header bytes`)
