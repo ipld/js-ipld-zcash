@@ -1,6 +1,6 @@
 {
   "name": "ipld-zcash",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "JavaScript implementation of Zcash IPLD formats",
   "leadMaintainer": "Volker Mische <volker.mische@gmail.com>",
   "main": "src/index.js",
