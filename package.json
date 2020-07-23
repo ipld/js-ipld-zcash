@@ -33,14 +33,15 @@
   },
   "homepage": "https://github.com/ipld/js-ipld-zcash#readme",
   "dependencies": {
-    "cids": "~0.8.0",
+    "buffer": "^5.6.0",
+    "cids": "^0.8.3",
     "multicodec": "^1.0.0",
-    "multihashes": "~0.4.15",
-    "multihashing-async": "~0.8.0",
+    "multihashes": "^1.0.1",
+    "multihashing-async": "^1.0.0",
     "zcash-block": "^2.0.0"
   },
   "devDependencies": {
-    "aegir": "^22.0.0",
+    "aegir": "^25.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1"

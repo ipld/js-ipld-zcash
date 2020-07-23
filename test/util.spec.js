@@ -9,6 +9,7 @@ chai.use(chaiAsPromised)
 chai.use(dirtyChai)
 const CID = require('cids')
 const multicodec = require('multicodec')
+const { Buffer } = require('buffer')
 const IpldZcash = require('../src/index')
 const helpers = require('./helpers')
 
