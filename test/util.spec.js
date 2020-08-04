@@ -1,12 +1,7 @@
 /* eslint-env mocha */
 'use strict'
 
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
-const dirtyChai = require('dirty-chai')
-const expect = chai.expect
-chai.use(chaiAsPromised)
-chai.use(dirtyChai)
+const { expect } = require('aegir/utils/chai')
 const CID = require('cids')
 const multicodec = require('multicodec')
 const { Buffer } = require('buffer')
