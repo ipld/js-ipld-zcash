@@ -23,7 +23,7 @@ const serialize = (dagNode) => {
 /**
  * Deserialize Zcash block into the internal representation.
  *
- * @param {Buffer} binaryBlob - Binary representation of a Zcash block
+ * @param {Uint8Array} binaryBlob - Binary representation of a Zcash block
  * @returns {ZcashBlock}
  */
 const deserialize = (binaryBlob) => {
@@ -31,7 +31,7 @@ const deserialize = (binaryBlob) => {
 
   if (!Buffer.isBuffer(binaryBlob)) {
     // zcash only takes Buffers, not Uint8Arrays
-    binaryBlob = Buffer.from(binaryBlob)
+    binaryBlob = Buffer.from(binaryBlob, binaryBlob.byteOffset, binaryBlob.byteLength)
   }
 
   if (binaryBlob.length < ZCASH_BLOCK_HEADER_SIZE) {
