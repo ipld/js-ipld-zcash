@@ -1,3 +1,18 @@
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/ipld/js-ipld-zcash/compare/v0.4.3...v0.5.0) (2020-08-04)
+
+
+### Bug Fixes
+
+* update to latest cids and uint8array compatible deps ([c613e57](https://github.com/ipld/js-ipld-zcash/commit/c613e57))
+
+
+### BREAKING CHANGES
+
+* - `util.cid` returns `CID`s with a breaking API change - see https://github.com/multiformats/js-cid/pull/117 for changes
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/ipld/js-ipld-zcash/compare/v0.4.2...v0.4.3) (2020-07-23)
 
