@@ -1,3 +1,7 @@
+## [0.5.1](https://github.com/ipld/js-ipld-zcash/compare/v0.5.0...v0.5.1) (2021-03-03)
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/ipld/js-ipld-zcash/compare/v0.4.3...v0.5.0) (2020-08-04)
 
