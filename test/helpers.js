@@ -2,7 +2,7 @@
 
 const ZCASH_BLOCK_HEADER_SIZE = require('../src/index')
   .util.ZCASH_BLOCK_HEADER_SIZE
-const loadFixture = require('aegir/fixtures')
+const loadFixture = require('aegir/utils/fixtures')
 const { Buffer } = require('buffer')
 
 // fixture block.hex is 000000002c67a4a2351da58b0822193018e95abc94f243d4d9fdcefed81f45e1

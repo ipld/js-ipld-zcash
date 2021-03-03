@@ -59,15 +59,14 @@ const deserialize = (binaryBlob) => {
  * @param {Object} binaryBlob - Encoded IPLD Node
  * @param {Object} [userOptions] - Options to create the CID
  * @param {number} [userOptions.cidVersion=1] - CID version number
- * @param {string} [UserOptions.hashAlg] - Defaults to the defaultHashAlg of the format
- * @returns {Promise.<CID>}
+ * @param {string} [userOptions.hashAlg] - Defaults to the defaultHashAlg of the format
  */
 const cid = async (binaryBlob, userOptions) => {
   const defaultOptions = { cidVersion: 1, hashAlg: DEFAULT_HASH_ALG }
   const options = Object.assign(defaultOptions, userOptions)
 
   const multihash = await multihashing(binaryBlob, options.hashAlg)
-  const codecName = multicodec.print[CODEC]
+  const codecName = multicodec.getNameFromCode(CODEC)
   const cid = new CID(options.cidVersion, codecName, multihash)
 
   return cid
