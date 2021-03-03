@@ -1,6 +1,6 @@
 {
   "name": "ipld-zcash",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "JavaScript implementation of Zcash IPLD formats",
   "leadMaintainer": "Volker Mische <volker.mische@gmail.com>",
   "main": "src/index.js",
@@ -46,8 +46,8 @@
   },
   "contributors": [
     "Volker Mische <volker.mische@gmail.com>",
-    "Richard Schneider <makaretu@gmail.com>",
     "achingbrain <alex@achingbrain.net>",
+    "Richard Schneider <makaretu@gmail.com>",
     "David Dias <daviddias.p@gmail.com>",
     "Mitra Ardron <mitra@mitra.biz>",
     "Rod Vagg <rod@vagg.org>"
